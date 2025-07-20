@@ -1,0 +1,108 @@
+Angular
+https://angular.dev/overview
+https://www.angulararchitects.io/blog/angular-tutorial-teil-1-werkzeuge-und-erste-schritte/
+
+Voraussetzung: Node JS, Angular CLI
+Node JS installieren: https://nodejs.org/en/
+Version prüfen: node -v in Konsole
+
+Angular CLI: Tool um Angular Projekte zu bauen
+Installieren: npm install -g @angular/cli
+Version prüfen: ng version
+
+---
+Neues Projekt anlegen:
+Öffne cmd und navigiere in den Ordner, wo der Workspace liegen soll.
+ng new myProject
+
+Verzeichnisstruktur:
+- node_modules: alle zusätzliche Libraries, welches das Angular Projekt verwendet (Ordner eher uninteressant)
+- src/app: Quellcode der Anwendung
+- src/assets: Bilder, Videos, Sounds etc.
+- environment-Dateien: Alle Infos zur App, die sich ändern z.B. Server URL, API Schlüssel
+- index.html: Grundgerüst, welches die app-module einbindet
+- main.ts und polyfills.ts: braucht man normalerweise nicht anpassen
+- styles.css: CSS Code, der für alle Komponenten gelten soll
+- app.modules.ts: Tiefste Ebene wo alle Components, Services etc. für die Anwendung definiert sind. Dort kann man z.B. auch MaterialDesign importieren
+
+
+Serve the application:
+cd myProject
+ng serve --open
+
+ng serve macht folgendes:
+1) App bauen
+2) Development Server starten
+3) Betrachtet die Sourcen
+4) Baut die Anwendung erneut, wenn etwas geändert wurde
+
+--open öffnet den Standardbrowser zu http://localhost:4200
+
+Die Seite, die man jetzt in http://localhost:4200 sieht ist die sogenannte "application Shell".
+Die Shell wird von einer Angular Component kontrolliert. Die Component heißt "AppComponent".
+
+Öffne das Verzeichnis in Visual Studio Code.
+Die AppComponent findet sich in src/app (app.component.ts, *.html, *.css)
+Den Titel kann man in der .ts ändern und den Inhalt der html löschen und <h1>{{title}}</h1>
+Seite wird automatisch aktualisiert.
+
+---
+Neue Component generieren:
+ng generate component header
+
+Es entsteht ein neuer Ordner src/app/header/
+Exportiere immer Components in ihrer ts, damit sie woanders importiert werden können
+
+HeaderComponent zur AppComponent hinzufügen:
+In der app.component.html folgendes eintragen: <app-header></app-header>
+
+---
+Service
+
+Ein Service ist eine dependency Injection, d.h. Services können von allen Components eingebunden
+und die Werte verwendet werden. (Serviert Daten an Components)
+In einem Service können auch die HTTP Request ausgeführt werden.
+ng generate Service friend
+
+Es entsteht nur eine neue ts Datei
+
+---
+Routing
+
+Routing ermöglicht es, zwischen Components zu navigieren.
+Best practice ist es ein top-Level Modul zu erstellen, um den Router zu erstellen und konfigurieren:
+
+ng generate module app-routing --flat --module=app
+(src/app/app-routing.module.ts wird erstellt)
+
+1) In app.module.ts Import machen: import { RouterModule, Routes } from '@angular/router';
+2) import { AppRoutingModule } from './app-routing.module'; wird automatisch in app.module.ts importiert und auch das AppRouterModule
+3) Definiere deine Routen in app-routing.module.ts: const routes: Routes...
+4) Verwende <router-outlet> im app.component.html
+5) Füge die RouterLink-Direktive hinzu "<a routerLink="/home">Home</a>" in den Navigation Component html
+
+AuthGuard: Zugriff auf bestimmte Routen basierend auf der Authentifizierung steuern
+Der AuthGuard ist ein Service, der die Navigation steuert, basierend auf einer Bedingung (z. B. ob der Benutzer eingeloggt ist oder nicht).
+
+ng generate guard auth/Auth
+(Dies erstellt eine Datei namens auth.guard.ts im src/app/auth-Verzeichnis.)
+
+AuthService erstellen:
+ng generate service auth/Auth
+
+AuthGuard in den Routen verwenden:
+In app-routing.module.ts AuthGuard hinzufügen.
+
+---
+Interceptor:
+In Angular ist ein Interceptor eine spezielle Art von Service, der es ermöglicht, HTTP-Anfragen und -Antworten zu verändern oder zu überwachen. Er wird in der Regel verwendet, um bestimmte Operationen global auf alle HTTP-Requests oder -Responses anzuwenden, bevor diese die Anwendung erreichen oder an den Server gesendet werden. Interceptors sind Teil des HttpClient-Moduls und bieten eine mächtige Möglichkeit, zusätzliche Logik wie Authentifizierung, Fehlerbehandlung oder das Hinzufügen von Headern hinzuzufügen.
+
+Ein Interceptor implementiert das HttpInterceptor-Interface, das eine Methode namens intercept() bereitstellt. Diese Methode wird immer aufgerufen, wenn eine HTTP-Anfrage gemacht wird.
+Hauptanwendungsfälle für Interceptors:
+
+    Authentifizierung und Autorisierung: Fügen Sie einen Authentifizierungstoken zu den HTTP-Headern hinzu.
+    Fehlerbehandlung: Behandeln Sie serverseitige Fehler wie 500 oder 401 und zeigen Sie entsprechende Fehlermeldungen an.
+    Logging: Protokollieren Sie Anfragen und Antworten, um Debugging und Analyse zu erleichtern.
+    Globale Modifikationen: Fügen Sie z. B. standardmäßig bestimmte Header oder Parameter zu allen Anfragen hinzu.
+
+ng generate interceptor [name]
