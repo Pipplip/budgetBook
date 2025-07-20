@@ -1,0 +1,31 @@
+<div class="w3-row margin-top-20">
+    <div class="w3-container w3-col l4">&nbsp;</div>
+    <div class="w3-container w3-col l4">
+        <!-- Login Dialog -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w3-container w3-card-4 w3-light-grey">
+            <h4>Login</h4>
+            <p>
+                <label>E-Mail Address</label>
+                <input class="w3-input w3-border w3-round" type="text" name="email" formControlName="email">
+            </p>
+            <p>
+                <label>Password</label>
+                <input class="w3-input w3-border w3-round" type="password" id="password" name="password" formControlName="password">
+            </p>
+            <div *ngIf="errorMessage" class="w3-container error-text">
+                <h5><b>{{ errorMessage }}</b></h5>
+            </div>
+            <p>
+                <!--<input class="w3-input w3-border w3-round submit" type="submit" [value]="isLoading ? 'loading' : 'Login'" [disabled]="isLoading">-->
+                <button class="w3-input w3-border w3-round submit" type="submit" [disabled]="isLoading">
+                    <span *ngIf="!isLoading">Login</span>
+                    <span *ngIf="isLoading">
+                        <mat-icon class="load-icon">sync</mat-icon>
+                    </span>
+                </button>
+            </p>
+        </form>
+
+    </div>
+    <div class="w3-container w3-col l4">&nbsp;</div>
+</div>

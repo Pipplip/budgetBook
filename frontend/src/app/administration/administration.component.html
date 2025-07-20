@@ -1,0 +1,42 @@
+<div class="w3-row margin-top-20">
+    <div class="w3-container w3-col l2">&nbsp;</div>
+    <div class="w3-container w3-col l8">
+        <!-- Tabelle -->
+        <div *ngIf="administrationItems$ | async as administrationItems; else loading">
+            <table class="w3-table-all w3-hoverable w3-card-4">
+                <colgroup>
+                    <col style="width: 50px;">
+                    <col style="width: 200px;">
+                    <col style="width: 200px;">
+                    <col style="width: 200px;">
+                    <col style="width: 50px;">
+                </colgroup>
+                <thead>
+                    <tr class="w3-light-grey">
+                        <th>RegistrationDate</th>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Rolle</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tr *ngFor="let item of administrationItems">
+                    <td>{{ item.registrationDate | date:"dd-MM-YYYY" }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.email }}</td>
+                    <td>{{ item.userRole }}</td>
+                    <td>
+                        <!--<a href="#" class="icon"><i class="material-icons">delete</i></a>-->
+                        <a *ngIf="authService.getUserId() != item.id" (click)="onDeleteClick(item.id)" class="icon"><mat-icon>delete</mat-icon></a>
+                        <!--<a href="#" class="icon"><mat-icon>edit</mat-icon></a>-->
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <ng-template #loading>
+            <p>...</p>
+        </ng-template>
+    </div>
+    <div class="w3-container w3-col l2">&nbsp;</div>
+    
+</div>

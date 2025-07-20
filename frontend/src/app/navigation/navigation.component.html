@@ -1,0 +1,49 @@
+<div class="w3-row">
+    <nav>
+        <div class="w3-col l2">&nbsp;</div>
+        <div class="w3-col l8">
+            <div class="w3-bar w3-border w3-blue-grey center" style="display: flex; justify-content: center;">
+                <a routerLink="/home" class="w3-bar-item w3-button w3-hide-small">Home</a>
+                <a routerLink="/budgetlist" class="w3-bar-item w3-button w3-hide-small">Liste</a>
+                <a *ngIf="!authService.isLoggedIn()" routerLink="/register" class="w3-bar-item w3-button w3-hide-small">Register</a>
+                <a *ngIf="authService.isAdmin()" routerLink="/administration" class="w3-bar-item w3-button w3-hide-small">Verwaltung</a>
+                <a *ngIf="authService.isLoggedIn(); else loggedOut" (click)="logout()" class="w3-bar-item w3-button w3-hide-small">Logout</a>
+                <ng-template #loggedOut>
+                  <a routerLink="/login" class="w3-bar-item w3-button w3-hide-small">Login</a>
+                </ng-template>
+
+                <a routerLink="" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium mobile-menu-icon" (click)="showSubMobileMenu()">&#9776;</a>
+            </div>
+            <div id="mobile-menu" class="w3-bar-block w3-blue-grey w3-hide w3-hide-large w3-hide-medium">
+                <a routerLink="/home" class="w3-bar-item w3-button">Home</a>
+                <a routerLink="/budgetlist" class="w3-bar-item w3-button">Liste</a>
+                <a *ngIf="!authService.isLoggedIn()" routerLink="/register" class="w3-bar-item w3-button">Register</a>
+                <a *ngIf="authService.isAdmin()" routerLink="/administration" class="w3-bar-item w3-button">Verwaltung</a>
+                <a *ngIf="authService.isLoggedIn(); else loggedOut_mobile" (click)="logout()" class="w3-bar-item w3-button">Logout</a>
+                <ng-template #loggedOut_mobile>
+                  <a routerLink="/login" class="w3-bar-item w3-button">Login</a>
+                </ng-template>
+            </div>
+            <span>
+                {{ authService.getEmailAdressOfLoggedInUser() }}
+                <span *ngIf="authService.isAdmin()">(Admin)</span>
+            </span>
+            <span *ngIf="authService.getExpirationTime() !== ''">
+                userId: {{ authService.getUserId() }}
+            </span>
+
+            <span *ngIf="authService.getExpirationTime() > 0">
+                Ablaufdatum: {{ authService.getExpirationTime() * 1000 | date: 'dd.MM.yyyy HH:mm:ss' }}
+            </span>
+
+            <div *ngIf="remainingTime > 0">
+                Token: {{ formatTime(remainingTime) }}
+              </div>
+            <div *ngIf="remainingTime <= 0">
+                Token ist abgelaufen.
+            </div>
+            
+        </div>
+        <div class="w3-col l2">&nbsp;</div>
+    </nav>
+</div>

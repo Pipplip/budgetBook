@@ -1,0 +1,39 @@
+<div class="w3-row margin-top-20">
+    <div class="w3-container w3-col l4">&nbsp;</div>
+    <div class="w3-container w3-col l4">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()"  class="w3-container w3-card-4 w3-light-grey">
+            <h4>Register</h4>
+            <p>
+                <label>E-Mail Address</label>
+                <input class="w3-input w3-border w3-round" type="text" id="email" name="email" formControlName="email">
+            </p>
+            <p>
+                <label>Password (Mindestens 6 Zeichen)</label>
+                <input class="w3-input w3-border w3-round" type="password" id="password" name="password" formControlName="password">
+            </p>
+            <p>
+                <label>Password wiederholen</label>
+                <input class="w3-input w3-border w3-round" type="password" id="confirm_password" name="confirm_password" formControlName="confirm_password">
+            </p>
+            <div *ngIf="registerForm.hasError('passwordsDoNotMatch')" class="w3-container error-text">
+                <h5><b>Passwörter stimmen nicht überein</b></h5>
+            </div>
+            <div *ngIf="errorMessage" class="w3-container error-text">
+                <h5><b>{{ errorMessage }}</b></h5>
+            </div>
+            <p>
+                <!--<input class="w3-input w3-border w3-round submit" type="submit" value="Register" [disabled]="registerForm.invalid" >  -->
+                <button class="w3-input w3-border w3-round submit" type="submit" value="Register" [disabled]="registerForm.invalid || isLoading">
+                    <span *ngIf="!isLoading">Register</span>
+                    <span *ngIf="isLoading">
+                        <mat-icon class="load-icon">sync</mat-icon>
+                    </span>
+                </button>
+            </p>
+        </form>
+
+
+
+    </div>
+    <div class="w3-container w3-col l4">&nbsp;</div>
+</div>

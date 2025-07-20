@@ -1,0 +1,53 @@
+<div class="w3-row margin-top-20">
+    <div class="w3-container w3-col l2">&nbsp;</div>
+    <div class="w3-container w3-col l8">
+
+        <!--<app-add-item-form [currentItem]="selectedItem" [formType]="formType"></app-add-item-form>
+         -->
+        <app-add-item-form (formSubmitted)="refreshList()"></app-add-item-form>
+        <!-- Tabelle -->
+
+        <div *ngIf="budgetListItems$ | async as budgetListItems; else loading">
+            <table class="w3-table-all w3-hoverable w3-card-4">
+                <colgroup>
+                    <col style="width: 50px;">
+                    <col style="width: 100px;">
+                    <col style="width: 100px;">
+                    <col style="width: 300px;">
+                    <col style="width: 50px;">
+                </colgroup>
+                <thead>
+                    <tr class="w3-light-grey">
+                        <th>Datum</th>
+                        <th>Einzahlung</th>
+                        <th>Auszahlung</th>
+                        <th>Beschreibung</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+
+                <tr *ngFor="let item of budgetListItems"> 
+                    <td>{{ item.addedDate | date:"dd-MM-YYYY"}}</td>
+                    <td>{{ item.deposit }}</td>
+                    <td>{{ item.payout }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>
+                        <!--<a href="#" class="icon"><i class="material-icons">delete</i></a>-->
+                        <a (click)="onDeleteClick(item.id)" class="icon"><mat-icon>delete</mat-icon></a>
+                        <!--<a href="#" class="icon"><i class="material-icons">edit</i></a>-->
+                        <!--<a (click)="onUpdateClick(item)" class="icon"><mat-icon>edit</mat-icon></a>-->
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+        <ng-template #loading>
+            <p>...</p>
+        </ng-template>
+
+        <div class="margin-top-20">Overall: 300 Euro (TODO)</div>
+    </div>
+    <div class="w3-container w3-col l2">&nbsp;</div>
+    
+</div>
